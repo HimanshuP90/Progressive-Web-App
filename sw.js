@@ -1,5 +1,4 @@
-const cacheName = 'news-v1';
-
+importScripts('./node_modules/workbox-sw/build/importScripts/workbox-sw.dev.v2.1.3.js');
 const staticAssets = [
   './',
   './app.js',
@@ -8,38 +7,11 @@ const staticAssets = [
   './images/fetch-dog.jpg'
 ];
 
-self.addEventListener('install', async function () {
-  const cache = await caches.open(cacheName);
-  cache.addAll(staticAssets);
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil(self.clients.claim());
-});
-
-self.addEventListener('fetch', event => {
-  const request = event.request;
-  const url = new URL(request.url);
-  if (url.origin === location.origin) {
-    event.respondWith(cacheFirst(request));
-  } else {
-    event.respondWith(networkFirst(request));
-  }
-});
-
-async function cacheFirst(request) {
-  const cachedResponse = await caches.match(request);
-  return cachedResponse || fetch(request);
-}
-
-async function networkFirst(request) {
-  const dynamicCache = await caches.open('news-dynamic');
-  try {
-    const networkResponse = await fetch(request);
-    dynamicCache.put(request, networkResponse.clone());
-    return networkResponse;
-  } catch (err) {
-    const cachedResponse = await dynamicCache.match(request);
-    return cachedResponse || await caches.match('./fallback.json');
-  }
-}
+const wb = new WorkboxSW();
+wb.precache(staticAssets);
+wb.router.registerRoute('https://newsapi.org/(.*)', wb.strategies.networkFirst());
+wb.router.registerRoute(/.*\.(png|jpg|jpeg|gif)/, wb.strategies.cacheFirst({
+  cacheName: 'news-images',
+  cacheExpiration: { maxEntries: 20, maxAgeSeconds: 12 * 60 * 60 },
+  cacheableResponse: { statuses: [0, 200] }
+}));

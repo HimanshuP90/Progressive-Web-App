@@ -1,0 +1,22 @@
+{
+  "name": "progressive-web-wpp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HimanshuP90/Progressive-Web-App.git"
+  },
+  "author": "himanshu pandey <himanshup895@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HimanshuP90/Progressive-Web-App/issues"
+  },
+  "homepage": "https://github.com/HimanshuP90/Progressive-Web-App#readme",
+  "dependencies": {
+    "workbox-sw": "^2.1.1"
+  }
+}

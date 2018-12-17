@@ -1,9 +1,10 @@
 {
-  "name": "News",
+  "name": "Alternative News",
   "short_name": "News",
-  "theme_color": "#2162f3",
-  "background_color": "#2196f3",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "display": "standalone",
+  "Scope": "/",
   "start_url": ".",
   "icons": [
     {
